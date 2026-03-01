@@ -160,7 +160,9 @@
             });
 
             if (res.ok) {
-                window.location.href = 'profile.html';
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 500);
             } else {
                 const data = await res.json();
                 const errEl = document.getElementById('login-error');

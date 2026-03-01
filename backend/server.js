@@ -203,7 +203,9 @@ app.post('/api/auth/login', async (req, res) => {
         const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
         if (user && await bcrypt.compare(password, user.password_hash)) {
             req.session.userId = user.id;
-            return res.json({ success: true });
+            req.session.save(() => {
+                return res.json({ success: true });
+            });
         }
         res.status(401).json({ error: 'Invalid email or password' });
     } catch (e) { res.status(500).json({ error: e.message }); }
