@@ -16,18 +16,23 @@ async function injectNavbar() {
     const nav = document.getElementById('navbar-container');
     if (!nav) return;
 
-    let authLinks = `<a href="user-login.html" class="hover:text-forest transition duration-200">Login / Sign Up</a>`;
+    let authLinksDesktop = `<a href="user-login.html" class="hover:text-forest transition duration-200">Login / Sign Up</a>`;
+    let authLinksMobile = `<a href="user-login.html" class="block px-4 py-2 hover:bg-gray-100 transition">Login / Sign Up</a>`;
 
     try {
         const res = await fetch('/api/auth/status');
         const data = await res.json();
         if (data.loggedIn) {
-            authLinks = `
+            authLinksDesktop = `
                 <a href="profile.html" class="hover:text-forest transition duration-200 relative">
                     <i class="fa-solid fa-user"></i> My Profile
                     <span id="nav-profile-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full hidden">0</span>
                 </a>
                 <a href="#" onclick="logoutUser(event)" class="hover:text-red-500 transition duration-200">Logout</a>
+            `;
+            authLinksMobile = `
+                <a href="profile.html" class="block px-4 py-2 hover:bg-gray-100 transition">My Profile</a>
+                <a href="#" onclick="logoutUser(event)" class="block px-4 py-2 hover:bg-red-50 text-red-500 transition">Logout</a>
             `;
         }
     } catch (e) {
@@ -46,19 +51,27 @@ async function injectNavbar() {
                     <div class="flex items-center">
                         <a href="index.html" class="flex-shrink-0 flex items-center gap-4">
                             <img class="h-16 w-auto rounded-full shadow-sm object-cover border-2 border-beige" src="favicon.png" alt="Logo">
-                            <span class="font-serif font-bold text-3xl text-black tracking-tight">Puppy Cam Co.</span>
+                            <span class="font-serif font-bold text-2xl md:text-3xl text-black tracking-tight">Puppy Cam Co.</span>
                         </a>
                     </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="flex items-center md:hidden">
+                        <button onclick="toggleMobileMenu()" class="text-slate hover:text-black focus:outline-none text-2xl">
+                            <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Nav -->
                     <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8 uppercase text-sm font-bold tracking-wide text-slate">
                         <a href="pets.html" class="hover:text-forest transition duration-200">Available Puppies</a>
                         <a href="our-promise.html" class="hover:text-forest transition duration-200">Our Promise</a>
                         
-                        <!-- VIP / Admin Tab -->
                         <a href="admin-login.html" class="text-brown hover:text-yellow-600 transition duration-200 flex items-center gap-1" title="Admin Dashboard">
                             <i class="fa-solid fa-crown text-xs"></i> VIP Area
                         </a>
 
-                        ${authLinks}
+                        ${authLinksDesktop}
                         
                         <a href="adoption-list.html" class="ml-6 px-5 py-2.5 bg-beige text-black rounded relative hover:bg-gray-200 transition">
                             <i class="fa-solid fa-clipboard-list mr-1"></i> Selection
@@ -67,10 +80,48 @@ async function injectNavbar() {
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 animate-slide-down">
+                <div class="px-6 py-4 space-y-2 uppercase text-sm font-bold tracking-wide text-slate">
+                    <a href="pets.html" class="block px-4 py-2 hover:bg-gray-100 transition">Available Puppies</a>
+                    <a href="our-promise.html" class="block px-4 py-2 hover:bg-gray-100 transition">Our Promise</a>
+                    <a href="admin-login.html" class="block px-4 py-2 text-brown hover:bg-yellow-50 transition">VIP Area</a>
+                    ${authLinksMobile}
+                    <div class="pt-4 mt-4 border-t border-gray-100">
+                        <a href="adoption-list.html" class="block px-4 py-3 bg-beige text-black rounded text-center">
+                            <i class="fa-solid fa-clipboard-list mr-1"></i> My Selection
+                        </a>
+                    </div>
+                </div>
+            </div>
         </nav>
+
+        <style>
+            @keyframes slide-down {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-slide-down {
+                animation: slide-down 0.3s ease-out forwards;
+            }
+        </style>
     `;
 
     updateNavListCount();
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if (menu) {
+        menu.classList.toggle('hidden');
+        if (menu.classList.contains('hidden')) {
+            icon.classList.replace('fa-xmark', 'fa-bars');
+        } else {
+            icon.classList.replace('fa-bars', 'fa-xmark');
+        }
+    }
 }
 
 async function logoutUser(e) {
