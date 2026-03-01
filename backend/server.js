@@ -188,7 +188,8 @@ app.post('/api/auth/register', async (req, res) => {
         const stmt = db.prepare('INSERT INTO users (full_name, email, password_hash, phone, address) VALUES (?, ?, ?, ?, ?)');
         const result = stmt.run(fullName, email, hash, phone, address);
         req.session.userId = result.lastInsertRowid;
-        req.session.save(() => {
+        req.session.save((err) => {
+            if (err) return res.status(500).json({ error: 'Session save failed' });
             res.json({ success: true });
         });
     } catch (e) {
@@ -203,8 +204,9 @@ app.post('/api/auth/login', async (req, res) => {
         const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
         if (user && await bcrypt.compare(password, user.password_hash)) {
             req.session.userId = user.id;
-            req.session.save(() => {
-                return res.json({ success: true });
+            return req.session.save((err) => {
+                if (err) return res.status(500).json({ error: 'Session save failed' });
+                res.json({ success: true });
             });
         }
         res.status(401).json({ error: 'Invalid email or password' });
