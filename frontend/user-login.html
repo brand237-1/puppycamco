@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="navbar-container"></div>
+
+    <main class="flex-1 flex items-center justify-center py-16 px-6 relative overflow-hidden bg-beige/30">
+
+        <div
+            class="bg-white p-10 rounded-2xl smooth-shadow border border-gray-100 w-full max-w-md relative z-10 transition-all duration-500">
+
+            <!-- Auth Toggle -->
+            <div class="flex gap-4 border-b border-gray-200 mb-8 pb-2">
+                <button id="tab-login"
+                    class="text-lg font-bold text-forest border-b-2 border-forest pb-1 px-4 cursor-pointer transition w-1/2 text-center"
+                    onclick="showForm('login')">Login</button>
+                <button id="tab-signup"
+                    class="text-lg font-bold text-slate hover:text-black pb-1 px-4 cursor-pointer transition w-1/2 text-center"
+                    onclick="showForm('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" class="space-y-5 block animate-fade-in-up">
+                <div id="login-error" class="text-red-500 text-sm hidden font-bold text-center"></div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-2">Email Address</label>
+                    <input type="email" id="login-email" required
+                        class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-2">Password</label>
+                    <input type="password" id="login-password" required
+                        class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition">
+                </div>
+                <button type="submit"
+                    class="w-full bg-forest text-white py-3 rounded font-bold shadow-md hover:bg-green-700 transition tracking-wider">
+                    SIGN IN
+                </button>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="form-signup" class="space-y-5 hidden animate-fade-in-up">
+                <div id="signup-error" class="text-red-500 text-sm hidden font-bold text-center"></div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-1">Full Name</label>
+                    <input type="text" id="reg-name" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-1">Email Address</label>
+                    <input type="email" id="reg-email" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-1">Password</label>
+                    <input type="password" id="reg-password" required minlength="6"
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-1">Phone Number</label>
+                    <input type="tel" id="reg-phone" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate mb-1">Delivery Address</label>
+                    <textarea id="reg-address" required rows="2"
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-black text-white py-3 rounded font-bold shadow-md hover:bg-gray-800 transition tracking-wider">
+                    CREATE ACCOUNT
+                </button>
+            </form>
+
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function showForm(type) {
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const loginTab = document.getElementById('tab-login');
+            const signupTab = document.getElementById('tab-signup');
+
+            if (type === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                loginTab.className = 'text-lg font-bold text-forest border-b-2 border-forest pb-1 px-4 cursor-pointer transition w-1/2 text-center';
+                signupTab.className = 'text-lg font-bold text-slate hover:text-black pb-1 px-4 cursor-pointer transition w-1/2 text-center';
+            } else {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                signupTab.className = 'text-lg font-bold text-forest border-b-2 border-forest pb-1 px-4 cursor-pointer transition w-1/2 text-center';
+                loginTab.className = 'text-lg font-bold text-slate hover:text-black pb-1 px-4 cursor-pointer transition w-1/2 text-center';
+            }
+        }
+
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: document.getElementById('login-email').value,
+                    password: document.getElementById('login-password').value
+                })
+            });
+
+            if (res.ok) {
+                window.location.href = 'profile.html';
+            } else {
+                const data = await res.json();
+                const errEl = document.getElementById('login-error');
+                errEl.textContent = data.error || 'Login failed.';
+                errEl.classList.remove('hidden');
+                btn.innerHTML = 'SIGN IN';
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('form-signup').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullName: document.getElementById('reg-name').value,
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-password').value,
+                    phone: document.getElementById('reg-phone').value,
+                    address: document.getElementById('reg-address').value
+                })
+            });
+
+            if (res.ok) {
+                window.location.href = 'profile.html';
+            } else {
+                const data = await res.json();
+                const errEl = document.getElementById('signup-error');
+                errEl.textContent = data.error || 'Registration failed.';
+                errEl.classList.remove('hidden');
+                btn.innerHTML = 'CREATE ACCOUNT';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

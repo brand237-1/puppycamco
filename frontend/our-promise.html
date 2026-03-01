@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Promise - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="navbar-container"></div>
+
+    <section class="bg-beige/50 py-20 border-b border-gray-200 text-center px-6">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-black mb-6">Our Promise</h1>
+        <p class="text-lg text-slate max-w-2xl mx-auto">We are committed to bringing you the highest standard of care,
+            transparency, and love when uniting you with your new best friend.</p>
+    </section>
+
+    <main class="flex-1 max-w-4xl mx-auto px-6 py-16 space-y-12">
+
+        <div
+            class="bg-white p-8 md:p-12 rounded-2xl smooth-shadow border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
+            <div
+                class="w-20 h-20 bg-forest/10 text-forest rounded-full flex items-center justify-center text-3xl flex-shrink-0">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-serif font-bold text-black mb-3">No Puppy Mills. Ever.</h2>
+                <p class="text-slate leading-relaxed">Our zero-tolerance policy against puppy mills and substandard
+                    operations ensures that every puppy comes from a vetted, responsible, and caring environment. We
+                    manually inspect and review all of our breeding partners.</p>
+            </div>
+        </div>
+
+        <div
+            class="bg-white p-8 md:p-12 rounded-2xl smooth-shadow border border-gray-100 flex flex-col md:flex-row-reverse gap-8 items-center">
+            <div
+                class="w-20 h-20 bg-brown/10 text-brown rounded-full flex items-center justify-center text-3xl flex-shrink-0">
+                <i class="fa-solid fa-truck-plane"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-serif font-bold text-black mb-3">Safe & Supervised Travel</h2>
+                <p class="text-slate leading-relaxed">We orchestrate specialized travel logistics tailored to each
+                    individual puppy's needs. Whether flying with a flight nanny or safely utilizing our secure pet
+                    transit ground network, your puppy arrives safe and sound.</p>
+            </div>
+        </div>
+
+        <div
+            class="bg-white p-8 md:p-12 rounded-2xl smooth-shadow border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
+            <div
+                class="w-20 h-20 bg-blue/10 text-blue rounded-full flex items-center justify-center text-3xl flex-shrink-0">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-serif font-bold text-black mb-3">24/7 Concierge Support</h2>
+                <p class="text-slate leading-relaxed">Our relationship doesn't end once you take your puppy home. From
+                    expert nutritional guidance to behavior coaching, our team and Scientific Advisory Board are always
+                    accessible via WhatsApp for anything you need.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

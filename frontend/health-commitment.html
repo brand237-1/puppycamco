@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Commitment - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="navbar-container"></div>
+
+    <section class="bg-blue/10 py-20 border-b border-blue/20 text-center px-6">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-blue mb-6">10-Year Health Commitment</h1>
+        <p class="text-lg text-slate max-w-2xl mx-auto">We don't just promise healthy puppies; we stand by them for a
+            decade.</p>
+    </section>
+
+    <main class="flex-1 max-w-4xl mx-auto px-6 py-16">
+
+        <div class="bg-white p-8 md:p-12 rounded-2xl smooth-shadow border border-gray-100 mb-12">
+            <h2 class="text-3xl font-serif font-bold text-black mb-6">Our Promise to You</h2>
+            <p class="text-slate leading-relaxed mb-6">We are proud to offer an industry-leading 10-Year Health
+                Commitment for every puppy adopted through the Puppy Cam Co network. Our dedication to the health and
+                well-being of our puppies is rooted in the rigorous vetting of our breeders and the guidance of our
+                Scientific Advisory Board.</p>
+            <p class="text-slate leading-relaxed">This commitment means that if your puppy is diagnosed with a covered
+                genetic or hereditary condition within their first 10 years of life, we are here to support you and your
+                furry family member.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-forest/5 p-8 rounded-2xl border border-forest/10">
+                <h3 class="font-bold text-xl font-serif text-forest mb-4"><i class="fa-solid fa-shield-dog mr-2"></i>
+                    What Is Covered</h3>
+                <ul class="text-slate space-y-3 text-sm list-disc pl-5">
+                    <li>Severe, life-altering genetic defects</li>
+                    <li>Hip and elbow dysplasia</li>
+                    <li>Congenital heart defects</li>
+                    <li>Hereditary eye disorders</li>
+                </ul>
+            </div>
+
+            <div class="bg-brown/5 p-8 rounded-2xl border border-brown/10">
+                <h3 class="font-bold text-xl font-serif text-brown mb-4"><i class="fa-solid fa-stethoscope mr-2"></i>
+                    Required Steps</h3>
+                <ul class="text-slate space-y-3 text-sm list-disc pl-5">
+                    <li>A wellness exam by a licensed vet within 3 days of arrival</li>
+                    <li>Keeping vaccinations and deworming up to date</li>
+                    <li>Feeding your puppy a high-quality, species-appropriate diet</li>
+                    <li>Providing regular exercise and maintaining a healthy weight</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

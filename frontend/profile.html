@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        },
+                        animation: {
+                            'bounce-slow': 'bounce 3s infinite',
+                            'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        },
+                        keyframes: {
+                            fadeIn: {
+                                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="navbar-container"></div>
+
+    <!-- Header Section -->
+    <section class="bg-forest py-12 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 flex items-center gap-6">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-forest text-3xl font-serif font-bold shadow-lg"
+                id="profile-initial">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <div class="text-white">
+                <h1 class="text-3xl md:text-4xl font-serif font-bold mb-2" id="profile-name">Loading...</h1>
+                <p class="text-forest-100 opacity-90 text-sm"><i class="fa-solid fa-clock mr-1"></i> Member since <span
+                        id="profile-date">...</span></p>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-1 max-w-7xl mx-auto px-6 py-12 w-full grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- Account Info -->
+        <aside class="w-full bg-white p-8 rounded-2xl smooth-shadow border border-gray-100 h-fit">
+            <h3 class="text-xl font-bold font-serif border-b border-gray-100 pb-4 mb-6">Contact Information</h3>
+
+            <div class="space-y-4 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-slate uppercase tracking-wider block mb-1">Email</label>
+                    <p class="text-black bg-gray-50 p-3 rounded" id="profile-email">...</p>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate uppercase tracking-wider block mb-1">Phone</label>
+                    <p class="text-black bg-gray-50 p-3 rounded" id="profile-phone">...</p>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate uppercase tracking-wider block mb-1">Delivery
+                        Address</label>
+                    <p class="text-black bg-gray-50 p-3 rounded" id="profile-address">...</p>
+                </div>
+            </div>
+
+            <button onclick="logoutUser(event)"
+                class="w-full mt-8 py-3 text-red-500 font-bold border border-red-200 rounded hover:bg-red-50 transition">
+                Sign Out
+            </button>
+        </aside>
+
+        <!-- Main Dashboard -->
+        <div class="w-full md:col-span-2 space-y-8">
+
+            <!-- Notifications / Admin Messages -->
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-serif font-bold"><i class="fa-solid fa-bell text-golden mr-2"></i>
+                        Concierge Messages</h2>
+                </div>
+                <div id="profile-messages" class="space-y-4 max-h-64 overflow-y-auto pr-2">
+                    <p class="text-slate italic">Loading messages...</p>
+                </div>
+            </div>
+
+            <!-- Saved Selection -->
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-serif font-bold">Your Saved Selection</h2>
+                    <a href="adoption-list.html" class="text-forest hover:underline text-sm font-bold">Manage List <i
+                            class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+                <div id="saved-items" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Populated by JS -->
+                    <p class="text-slate italic col-span-2">Loading your saved puppies and accessories...</p>
+                </div>
+            </div>
+
+            <!-- Order History -->
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-serif font-bold"><i class="fa-solid fa-box-open text-brown mr-2"></i> My
+                        Interest/Order History</h2>
+                </div>
+                <div id="order-history" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    <p class="text-slate italic">Loading orders...</p>
+                </div>
+            </div>
+
+            <div class="bg-blue/10 p-8 rounded-2xl border border-blue/20 flex flex-col sm:flex-row items-center gap-6">
+                <div
+                    class="w-16 h-16 rounded-full bg-blue text-white flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-black mb-2">Need assistance with adoption?</h3>
+                    <p class="text-slate text-sm mb-4">Our concierge team is available 24/7 to help you coordinate
+                        travel, answer health questions, or finalize your adoption process.</p>
+                    <a href="https://api.whatsapp.com/send?phone=447459485307" target="_blank"
+                        class="inline-block bg-blue text-white px-6 py-2 rounded shadow font-bold hover:bg-slate-700 transition">Message
+                        Support</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/api/user/profile');
+                if (!res.ok) {
+                    window.location.href = 'user-login.html';
+                    return;
+                }
+                const user = await res.json();
+
+                // Populate profile UI
+                document.getElementById('profile-name').textContent = user.full_name;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-phone').textContent = user.phone || 'Not Provided';
+                document.getElementById('profile-address').textContent = user.address || 'Not Provided';
+
+                // Parse date
+                const d = new Date(user.created_at);
+                document.getElementById('profile-date').textContent = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+
+                // Setup initials
+                const initials = user.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                document.getElementById('profile-initial').innerHTML = initials;
+
+                renderSavedItems();
+                loadProfileMessages();
+                loadOrderHistory();
+
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+        async function loadProfileMessages() {
+            try {
+                const container = document.getElementById('profile-messages');
+                container.innerHTML = '';
+
+                // Load Official Notifications ONLY
+                await loadOfficialNotifications();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function loadOfficialNotifications() {
+            try {
+                const res = await fetch('/api/notifications');
+                if (!res.ok) return;
+                const notifs = await res.json();
+                const container = document.getElementById('profile-messages');
+
+                notifs.forEach(n => {
+                    const el = document.createElement('div');
+                    el.className = 'bg-forest/5 border border-forest/10 p-5 rounded-2xl flex items-start gap-4 mb-4 shadow-sm border-l-4 border-l-forest animate-fade-in';
+                    el.innerHTML = `
+                        <div class="w-12 h-12 bg-forest text-white rounded-full flex items-center justify-center flex-shrink-0 text-xl shadow-lg ring-4 ring-forest/10"><i class="fa-solid fa-certificate"></i></div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <p class="text-xs font-black text-forest uppercase tracking-widest">Official Confirmation</p>
+                                ${n.is_read ? '' : '<span class="bg-brown text-white text-[8px] px-2 py-0.5 rounded-full animate-pulse">NEW</span>'}
+                            </div>
+                            <p class="text-black text-sm leading-relaxed font-bold">${n.message}</p>
+                            <p class="text-[10px] text-gray-400 mt-2 flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${new Date(n.created_at).toLocaleString()}</p>
+                        </div>
+                    `;
+                    container.prepend(el);
+                });
+
+                if (notifs.length > 0) {
+                    setTimeout(() => fetch('/api/notifications/read', { method: 'POST' }), 3000);
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function renderSavedItems() {
+            const list = getAdoptionList();
+            const container = document.getElementById('saved-items');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = '<p class="text-slate italic col-span-2 py-4">You have not saved any puppies or accessories yet. <a href="pets.html" class="text-forest font-bold hover:underline">Explore now.</a></p>';
+                return;
+            }
+
+            list.forEach(item => {
+                const isPet = item.type === 'pet';
+                const el = document.createElement('div');
+                el.className = 'flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:shadow-md transition bg-gray-50';
+                el.innerHTML = `
+                    <div class="w-12 h-12 rounded bg-white flex items-center justify-center text-xl shadow-sm border border-gray-200 text-${isPet ? 'forest' : 'brown'}">
+                        <i class="fa-solid fa-${isPet ? 'dog' : 'box'}"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-black">${item.name}</h4>
+                        <span class="text-xs uppercase tracking-wider font-bold text-slate">${isPet ? 'Puppy' : 'Accessory'}</span>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+        async function loadOrderHistory() {
+            try {
+                const res = await fetch('/api/user/orders');
+                if (!res.ok) return;
+                const orders = await res.json();
+
+                const container = document.getElementById('order-history');
+                container.innerHTML = '';
+
+                if (orders.length === 0) {
+                    container.innerHTML = '<p class="text-slate text-sm">You have not submitted any interest forms yet. Explore our pets to get started!</p>';
+                    return;
+                }
+
+                orders.forEach(order => {
+                    const isPet = order.item_type === 'pet';
+                    const el = document.createElement('div');
+                    el.className = 'bg-white border border-gray-100 p-5 rounded-xl shadow-sm hover:shadow-md transition';
+                    el.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-${isPet ? 'forest' : 'brown'}/10 text-${isPet ? 'forest' : 'brown'} rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-${isPet ? 'dog' : 'box'}"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-black">${order.item_name}</h4>
+                                    <p class="text-xs text-slate">${new Date(order.created_at).toLocaleDateString()} at ${new Date(order.created_at).toLocaleTimeString()}</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full uppercase">Submitted</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-xs mt-3 pt-3 border-t border-gray-50">
+                            <div>
+                                <p class="text-slate font-bold uppercase tracking-tighter mb-1">Proposed Price</p>
+                                <p class="text-black font-serif text-sm">£${order.proposed_price || 'N/A'}</p>
+                            </div>
+                            <div>
+                                <p class="text-slate font-bold uppercase tracking-tighter mb-1">Payment Type</p>
+                                <p class="text-black font-serif text-sm">${order.payment_method || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+
+</html>

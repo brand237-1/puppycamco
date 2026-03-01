@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breeder Standards - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="navbar-container"></div>
+
+    <section class="bg-forest py-20 border-b border-gray-200 text-center px-6 text-white">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold mb-6">Breeder Standards</h1>
+        <p class="text-lg text-forest-50 max-w-2xl mx-auto">Less than 10% of breeders who apply are accepted into our
+            exclusive network. We enforce the most rigorous checks in the industry.</p>
+    </section>
+
+    <main class="flex-1 max-w-4xl mx-auto px-6 py-16 space-y-12">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <h3 class="font-bold text-xl font-serif text-black border-b border-gray-200 pb-3 mb-4"><i
+                        class="fa-solid fa-list-check text-forest mr-2"></i> Comprehensive Vetting</h3>
+                <p class="text-slate text-sm leading-relaxed">Before a breeder is invited to join Puppy Cam Co, they
+                    must undergo an extensive screening process. This includes an interview, an evaluation of their
+                    breeding facilities, and verification of their veterinary records and USDA status if applicable.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <h3 class="font-bold text-xl font-serif text-black border-b border-gray-200 pb-3 mb-4"><i
+                        class="fa-solid fa-stethoscope text-brown mr-2"></i> Veterinary Care</h3>
+                <p class="text-slate text-sm leading-relaxed">Our breeders are required to provide comprehensive,
+                    documented, timely, and species-appropriate preventative care, vaccinations, and parasite control,
+                    ensuring their breeding parents and puppies are healthy.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <h3 class="font-bold text-xl font-serif text-black border-b border-gray-200 pb-3 mb-4"><i
+                        class="fa-solid fa-house-chimney text-blue mr-2"></i> Safe Environments</h3>
+                <p class="text-slate text-sm leading-relaxed">We require all housing facilities to be spacious, clean,
+                    well-lit, and well-ventilated. Dogs must have daily access to exercise and space to play safely.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100">
+                <h3 class="font-bold text-xl font-serif text-black border-b border-gray-200 pb-3 mb-4"><i
+                        class="fa-solid fa-hands-holding-child text-slate mr-2"></i> Socialization</h3>
+                <p class="text-slate text-sm leading-relaxed">Puppies are raised in loving environments where they get
+                    accustomed to various sounds, environments, and people, ensuring they graduate as well-rounded
+                    companions.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

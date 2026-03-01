@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Adoption List - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Outfit', 'sans-serif'],
+                        },
+                        animation: {
+                            'bounce-slow': 'bounce 3s infinite',
+                            'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        },
+                        keyframes: {
+                            fadeIn: {
+                                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #F1EDE6;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+
+<body class="text-black antialiased transition-colors duration-300 relative min-h-screen flex flex-col">
+
+    <div id="navbar-container"></div>
+
+    <main class="flex-1 max-w-4xl w-full mx-auto px-6 py-12">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-forest mb-4">My Interest List</h1>
+            <p class="text-gray-600">Review the kittens and products you are interested in, and submit your details to
+                let us know!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+            <!-- Items List -->
+            <div class="glass p-6 rounded-3xl shadow-lg border border-gray-100 flex flex-col" id="list-section">
+                <h2 class="text-xl font-bold mb-6 text-black flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-forest"></i> Selected Items (<span id="item-count">0</span>)
+                </h2>
+                <div id="selected-items" class="flex-1 overflow-y-auto pr-2 space-y-4 max-h-[400px]">
+                    <!-- Items from LocalStorage injected here -->
+                    <div class="text-center text-gray-400 py-10 italic">Your list is empty.</div>
+                </div>
+                <!-- Total Price Display -->
+                <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center">
+                    <span class="text-slate font-bold uppercase tracking-wider text-xs">Total Estimated Value</span>
+                    <span class="text-2xl font-serif font-bold text-forest">£<span id="total-price">0.00</span></span>
+                </div>
+            </div>
+
+            <!-- Submission Form -->
+            <div
+                class="bg-white p-8 rounded-2xl smooth-shadow border border-gray-100 flex-1 relative h-fit sticky top-28">
+                <h2 class="text-2xl font-serif font-bold text-black border-b border-gray-100 pb-4 mb-6"><i
+                        class="fa-solid fa-lock text-forest mr-2"></i>Secure Checkout</h2>
+                <form id="adoption-form" class="space-y-5 relative">
+                    <!-- Loading Overlay inside form -->
+                    <div id="form-loader"
+                        class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 hidden flex flex-col items-center justify-center rounded">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-forest mb-2"></i>
+                        <span class="font-bold text-slate">Processing...</span>
+                    </div>
+
+                    <div class="space-y-4 border-b border-gray-100 pb-6 mb-6">
+                        <h3 class="font-bold text-slate uppercase tracking-wider text-sm"><i
+                                class="fa-solid fa-address-card mr-1"></i> My Details</h3>
+                        <div>
+                            <label class="block text-sm font-bold text-slate mb-1">Full Name</label>
+                            <input type="text" id="cust-name" required
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest bg-gray-50 text-gray-500 cursor-not-allowed"
+                                readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate mb-1">Email Address</label>
+                            <input type="email" id="cust-email" required
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest bg-gray-50 text-gray-500 cursor-not-allowed"
+                                readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate mb-1">Phone Number</label>
+                            <input type="tel" id="cust-phone" required
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest bg-gray-50 text-gray-500 cursor-not-allowed"
+                                readonly>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-slate mb-1">Delivery Address</label>
+                            <input type="text" id="cust-address" required
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest bg-gray-50 text-gray-500 cursor-not-allowed"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 border-b border-gray-100 pb-6 mb-6">
+                        <h3 class="font-bold text-slate uppercase tracking-wider text-sm"><i
+                                class="fa-solid fa-comments-dollar mr-1"></i> Negotiation (Offer your Price)</h3>
+                        <p class="text-xs text-gray-500 -mt-2 mb-2">You can propose a different price. Offers under 80%
+                            of the original value will be automatically rejected by the system.</p>
+                        <div>
+                            <label class="block text-sm font-bold text-slate mb-1">Proposed Amount (£)</label>
+                            <input type="number" id="cust-price" required min="1" step="0.01" placeholder="e.g. 700"
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest transition-all"
+                                oninput="updateNegotiationComparison(this.value)">
+                        </div>
+
+                        <!-- Price Comparison Summary -->
+                        <div id="negotiation-summary"
+                            class="hidden bg-gray-50 p-4 rounded-xl border border-gray-100 mt-2">
+                            <div class="flex justify-between items-center text-xs mb-2">
+                                <span class="text-slate font-medium">Original Total:</span>
+                                <span class="text-black font-bold">£<span id="orig-total-summary">0.00</span></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs mb-2 pb-2 border-b border-gray-200">
+                                <span class="text-slate font-medium">Your Offer:</span>
+                                <span class="text-forest font-bold">£<span id="prop-total-summary">0.00</span></span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm pt-1">
+                                <span class="text-slate font-bold">Potential Saving:</span>
+                                <span class="text-forest font-extrabold">£<span id="saving-summary">0.00</span></span>
+                            </div>
+                            <div id="min-price-hint" class="text-[10px] text-red-400 mt-2 italic font-medium">
+                                * Minimum acceptable offer is 80% of the total value.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <h3 class="font-bold text-slate uppercase tracking-wider text-sm"><i
+                                class="fa-solid fa-credit-card mr-1"></i> Payment Method</h3>
+
+                        <div class="grid grid-cols-1 gap-3">
+                            <label
+                                class="border border-gray-200 rounded p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition peer-checked">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="payment_method" value="Credit Card"
+                                        class="text-forest focus:ring-forest w-4 h-4" checked>
+                                    <span class="font-bold text-sm text-dark">Credit / Debit Card</span>
+                                </div>
+                                <div class="flex gap-2 text-blue-800 text-xl">
+                                    <i class="fa-brands fa-cc-visa"></i>
+                                    <i class="fa-brands fa-cc-mastercard text-red-500"></i>
+                                    <i class="fa-brands fa-cc-amex text-blue-500"></i>
+                                </div>
+                            </label>
+
+                            <label
+                                class="border border-gray-200 rounded p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="payment_method" value="PayPal"
+                                        class="text-forest focus:ring-forest w-4 h-4">
+                                    <span class="font-bold text-sm text-dark">PayPal</span>
+                                </div>
+                                <i class="fa-brands fa-paypal text-xl text-blue-600"></i>
+                            </label>
+
+                            <label
+                                class="border border-gray-200 rounded p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="payment_method" value="Crypto"
+                                        class="text-forest focus:ring-forest w-4 h-4">
+                                    <span class="font-bold text-sm text-dark">Cryptocurrency</span>
+                                </div>
+                                <i class="fa-brands fa-bitcoin text-xl text-yellow-500"></i>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-btn"
+                        class="w-full bg-forest text-white py-4 rounded-lg font-bold shadow-md hover:bg-green-700 transition uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-lg"></i> Submit Offer
+                    </button>
+                    <p class="text-xs text-center text-slate mt-4"><i class="fa-solid fa-lock"></i> AES-256 Bit
+                        Encryption</p>
+                </form>
+            </div>
+        </div>
+
+        <div id="success-msg"
+            class="hidden my-10 bg-green-50 border border-green-200 text-green-700 p-8 rounded-3xl text-center shadow-lg">
+            <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center text-2xl mb-4"><i
+                    class="fa-solid fa-check text-green-500"></i></div>
+            <h3 class="text-2xl font-bold mb-2">Inquiry Submitted!</h3>
+            <p>Thank you. Our team will contact you shortly about your selected items.</p>
+            <a href="pets.html"
+                class="inline-block mt-6 bg-green-600 text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition">Continue
+                Browsing</a>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/adoption.js"></script>
+</body>
+
+</html>

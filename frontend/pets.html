@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Puppies - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Lato', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+            color: #000000;
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans">
+
+    <div id="navbar-container"></div>
+
+    <!-- Header Section -->
+    <section class="bg-white py-12 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-black mb-4">Find Your Perfect Puppy</h1>
+            <p class="text-lg text-slate max-w-2xl mx-auto">Explore our exclusive network of vetted breeders. Every
+                puppy is backed by our industry-leading 10-year health promise.</p>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">
+        <!-- Filter Sidebar -->
+        <aside
+            class="w-full md:w-1/4 bg-white p-6 rounded-2xl smooth-shadow border border-gray-100 h-fit sticky top-28">
+            <h3 class="text-xl font-bold font-serif border-b border-gray-100 pb-4 mb-6">Filter Puppies</h3>
+
+            <form id="filter-form">
+                <!-- Ready To Travel -->
+                <div class="mb-6">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" id="filter-travel"
+                            class="w-5 h-5 text-forest border-gray-300 rounded focus:ring-forest">
+                        <span class="font-bold text-black">Ready to Travel Now <i
+                                class="fa-solid fa-plane text-blue ml-1"></i></span>
+                    </label>
+                </div>
+
+                <!-- Gender -->
+                <div class="mb-6">
+                    <h4 class="font-bold mb-3 text-slate uppercase text-sm tracking-wider">Gender</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="gender" value="All" class="text-forest focus:ring-forest" checked>
+                            <span class="text-sm">Any</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="gender" value="Male" class="text-forest focus:ring-forest">
+                            <span class="text-sm">Male</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="gender" value="Female" class="text-forest focus:ring-forest">
+                            <span class="text-sm">Female</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Breed Search -->
+                <div class="mb-6">
+                    <h4 class="font-bold mb-3 text-slate uppercase text-sm tracking-wider">Breed</h4>
+                    <input type="text" id="filter-breed" placeholder="e.g. French Bulldog..."
+                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-forest focus:border-forest transition">
+                </div>
+
+                <button type="button" id="reset-filters"
+                    class="w-full py-2 text-slate text-sm font-bold border border-gray-200 rounded hover:bg-gray-50 transition">Clear
+                    Filters</button>
+            </form>
+        </aside>
+
+        <!-- Main Content: Puppy Grid -->
+        <main class="w-full md:w-3/4">
+            <!-- Tabs (Puppies vs Accs) -->
+            <div class="flex gap-4 border-b border-gray-200 mb-8 pb-2">
+                <button id="tab-pets"
+                    class="text-lg font-bold text-forest border-b-2 border-forest pb-1 px-4 cursor-pointer transition">Puppies</button>
+                <button id="tab-products"
+                    class="text-lg font-bold text-slate hover:text-black pb-1 px-4 cursor-pointer transition">Accessories</button>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader" class="text-center py-20 hidden">
+                <i class="fa-solid fa-paw fa-bounce text-4xl text-brown"></i>
+                <p class="mt-4 text-slate">Fetching adorable friends...</p>
+            </div>
+
+            <!-- Content Grid for Pets -->
+            <div id="pets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Content Grid for Products -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- Populated by JS -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50"></div>
+
+    <div id="footer-container"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/pets.js"></script>
+</body>
+
+</html>

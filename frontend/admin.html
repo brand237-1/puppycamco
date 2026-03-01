@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Puppy Cam Co</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            white: '#FFFFFF',
+                            slate: '#708090',
+                            black: '#000000',
+                            brown: '#8B4513',
+                            forest: '#2E8B57',
+                            blue: '#4682B4',
+                            beige: '#F1EDE6'
+                        },
+                        fontFamily: {
+                            sans: ['Outfit', 'sans-serif'],
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-50 text-black antialiased transition-colors duration-300 min-h-screen hidden" id="dashboard-body">
+
+    <!-- Admin Sidebar -->
+    <div class="flex h-screen bg-gray-100">
+        <aside class="w-64 bg-black text-white flex flex-col hidden md:flex shadow-2xl">
+            <div class="h-20 flex items-center justify-center border-b border-gray-700">
+                <img src="favicon.png" alt="Logo" class="w-10 h-10 rounded-full mr-3 bg-white p-0.5 object-cover">
+                <span class="font-bold text-lg text-forest tracking-wide">Admin Portal</span>
+            </div>
+            <nav class="flex-1 px-4 py-8 space-y-2" id="sidebar-nav">
+                <button onclick="showTab('pets')"
+                    class="admin-tab-btn active w-full flex items-center gap-3 px-4 py-3 bg-forest text-white rounded-xl transition font-medium">
+                    <i class="fa-solid fa-cat w-5 text-center"></i> Manage Pets
+                </button>
+                <button onclick="showTab('products')"
+                    class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
+                    <i class="fa-solid fa-box w-5 text-center"></i> Manage Products
+                </button>
+                <button onclick="showTab('reviews')"
+                    class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
+                    <i class="fa-solid fa-star w-5 text-center"></i> Customer Reviews
+                </button>
+                <button onclick="showTab('adoption')"
+                    class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
+                    <i class="fa-solid fa-clipboard-list w-5 text-center"></i> Adoption List
+                </button>
+                <button onclick="showTab('users')"
+                    class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
+                    <i class="fa-solid fa-users-gear w-5 text-center"></i> Manage Users
+                </button>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button id="logout-btn"
+                    class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition font-bold">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden relative">
+
+            <!-- Mobile Header -->
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 md:hidden">
+                <div class="flex items-center gap-2">
+                    <img src="favicon.png" alt="Logo" class="w-8 h-8 rounded-full bg-gray-100 object-cover">
+                    <span class="font-bold text-forest">Admin</span>
+                </div>
+                <button id="mobile-menu-btn" class="text-gray-500 text-2xl"><i class="fa-solid fa-bars"></i></button>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6 md:p-10 bg-gray-50 relative">
+
+                <!-- Toast msg -->
+                <div id="admin-toast"
+                    class="fixed top-6 right-6 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-2xl z-50 transition-all duration-300 opacity-0 translate-y-[-20px] hidden">
+                    Success!
+                </div>
+
+                <!-- TAB: Pets -->
+                <div id="tab-pets" class="admin-tab block">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-3xl font-bold text-black">Manage Pets</h2>
+                            <p class="text-gray-500">Add or remove kittens from the adoption list.</p>
+                        </div>
+                        <button onclick="document.getElementById('add-pet-modal').classList.remove('hidden')"
+                            class="bg-forest text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:bg-teal-500 transition flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Add Pet
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Image</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Pet Details</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Description</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pets-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Pets JS injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB: Products -->
+                <div id="tab-products" class="admin-tab hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-3xl font-bold text-black">Manage Products</h2>
+                            <p class="text-gray-500">Update inventory and product pricing.</p>
+                        </div>
+                        <button onclick="document.getElementById('add-product-modal').classList.remove('hidden')"
+                            class="bg-forest text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:bg-teal-500 transition flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Add Product
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Image</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Name</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Pricing</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Products JS injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB: Reviews -->
+                <div id="tab-reviews" class="admin-tab hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-3xl font-bold text-black">Customer Reviews</h2>
+                            <p class="text-gray-500">Moderate reviews shown on the homepage.</p>
+                        </div>
+                        <button onclick="document.getElementById('add-review-modal').classList.remove('hidden')"
+                            class="bg-forest text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:bg-teal-500 transition flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Add Review
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="reviews-grid">
+                        <!-- Reviews JS injected -->
+                    </div>
+                </div>
+
+                <!-- TAB: Adoption List -->
+                <div id="tab-adoption" class="admin-tab hidden">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold text-black">Adoption Submissions</h2>
+                        <p class="text-gray-500">Inquiries submitted by customers.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Date</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Order ID</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Customer</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Items Count</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Proposal Total</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adoption-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Adoption JS injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- TAB: Users -->
+                <div id="tab-users" class="admin-tab hidden text-black">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold">User Management</h2>
+                        <p class="text-gray-500">View registered customers and their account details.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        User</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Contact</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Joined Date</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Users injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Pet Modal -->
+    <div id="add-pet-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div class="bg-forest p-5 border-b border-forest flex justify-between items-center text-white">
+                <h3 class="font-bold text-xl"><i class="fa-solid fa-paw mr-2"></i>Add New Puppy</h3>
+                <button type="button" onclick="document.getElementById('add-pet-modal').classList.add('hidden')"
+                    class="hover:text-gray-200"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="form-add-pet" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <input type="text" name="name" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Breed</label>
+                        <input type="text" name="breed" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                        <input type="text" name="age" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select name="gender"
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                        <input type="text" name="color"
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Old Price (£)</label>
+                        <input type="number" step="0.01" name="old_price"
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">New Price (£)</label>
+                        <input type="number" step="0.01" name="new_price" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none">
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 py-2">
+                    <input type="checkbox" name="travel_ready" value="true"
+                        class="w-5 h-5 text-forest border-gray-300 rounded focus:ring-forest">
+                    <label class="text-sm font-bold text-gray-700">Ready to Travel / Available</label>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea name="description" rows="3" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-forest focus:border-forest outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload Photo</label>
+                    <input type="file" name="image" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-forest/10 file:text-forest hover:file:bg-forest/20 cursor-pointer">
+                </div>
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="document.getElementById('add-pet-modal').classList.add('hidden')"
+                        class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-3 bg-forest text-white rounded-xl font-bold shadow-md hover:bg-green-700 transition">Save
+                        Puppy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="bg-brown p-5 border-b border-brown/20 flex justify-between items-center text-black">
+                <h3 class="font-bold text-xl"><i class="fa-solid fa-box mr-2"></i>Add New Product</h3>
+                <button onclick="document.getElementById('add-product-modal').classList.add('hidden')"
+                    class="hover:text-black/70"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="form-add-product" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" name="name" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-brown focus:border-brown outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Old Price (£) - Optional</label>
+                        <input type="number" step="0.01" name="old_price"
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-brown focus:border-brown outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">New Price (£)</label>
+                        <input type="number" step="0.01" name="new_price" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-brown focus:border-brown outline-none border-forest border-2">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea name="description" rows="3" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-brown focus:border-brown outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                    <input type="file" name="image" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brown/20 file:text-black hover:file:bg-brown/40 cursor-pointer">
+                </div>
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="document.getElementById('add-product-modal').classList.add('hidden')"
+                        class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-3 bg-brown text-black rounded-xl font-bold shadow-md hover:bg-yellow-400 transition">Save
+                        Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Review Modal -->
+    <div id="add-review-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="bg-gray-100 p-5 border-b border-gray-200 flex justify-between items-center text-black">
+                <h3 class="font-bold text-xl"><i class="fa-solid fa-star text-brown mr-2"></i>Add Review</h3>
+                <button onclick="document.getElementById('add-review-modal').classList.add('hidden')"
+                    class="hover:text-gray-500"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="form-add-review" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                        <input type="text" name="customer_name" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-gray-300 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
+                        <input type="number" min="1" max="5" name="rating" required
+                            class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-gray-300 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+                    <textarea name="comment" rows="3" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-gray-300 outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Customer Photo (Optional)</label>
+                    <input type="file" name="image" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-black cursor-pointer">
+                </div>
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="document.getElementById('add-review-modal').classList.add('hidden')"
+                        class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-3 bg-black text-white rounded-xl font-bold shadow-md hover:bg-black transition">Publish
+                        Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Control Center Modal -->
+    <div id="order-details-modal"
+        class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="bg-forest p-6 flex justify-between items-center text-white shrink-0">
+                <div>
+                    <h3 class="font-bold text-2xl" id="modal-order-id">Order #XXXXXX</h3>
+                    <p class="text-forest-100 text-sm" id="modal-order-date">Date: March 1, 2026</p>
+                </div>
+                <button onclick="document.getElementById('order-details-modal').classList.add('hidden')"
+                    class="bg-white/20 hover:bg-white/30 w-10 h-10 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Body Area (Grid) -->
+            <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+                <!-- Left: Order Details -->
+                <div class="p-8 overflow-y-auto border-r border-gray-100 bg-gray-50/50">
+                    <div class="mb-8">
+                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Customer Information
+                        </h4>
+                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-forest/10 text-forest flex items-center justify-center">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate uppercase font-bold">Name</p>
+                                    <p class="font-bold text-black" id="modal-customer-name">John Doe</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-blue/10 text-blue flex items-center justify-center">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate uppercase font-bold">Email</p>
+                                    <p class="font-bold text-black" id="modal-customer-email">john@example.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate uppercase font-bold">Phone</p>
+                                    <p class="font-bold text-black" id="modal-customer-phone">+123456789</p>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-gray-50">
+                                <p class="text-xs text-slate uppercase font-bold mb-1">Delivery Address</p>
+                                <p class="text-sm text-gray-700 italic" id="modal-customer-address">123 Puppy Lane,
+                                    Barking</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Purchased Items</h4>
+                        <div class="space-y-3" id="modal-order-items">
+                            <!-- Items injected here -->
+                        </div>
+                        <div
+                            class="mt-6 p-4 bg-teal-50 rounded-2xl flex justify-between items-center border border-teal-100">
+                            <span class="font-bold text-teal-800">Proposed Grand Total:</span>
+                            <span class="text-2xl font-black text-teal-900" id="modal-order-total">£0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
