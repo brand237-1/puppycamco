@@ -4,20 +4,15 @@ let allPets = [];
 let allProducts = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Load items immediately (guest browsing enabled)
+    loadItems();
+
     try {
         const res = await fetch('/api/auth/status');
         const data = await res.json();
-        if (!data.loggedIn) {
-            window.location.href = 'user-login.html';
-            return;
-        }
-
-        // Load items only if authenticated
-        loadItems();
+        // Optional: you can show a 'login to checkout' toast here if you want
     } catch (e) {
-        console.error(e);
-        window.location.href = 'user-login.html';
-        return;
+        console.error("Auth status check failed", e);
     }
 
     // Tab switching

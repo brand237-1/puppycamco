@@ -1,24 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Auth Check
+    // Try to auto-fill if logged in
     try {
         const res = await fetch('/api/user/profile');
-        if (!res.ok) {
-            window.location.href = 'user-login.html';
-            return;
+        if (res.ok) {
+            const user = await res.json();
+            document.getElementById('cust-name').value = user.full_name;
+            document.getElementById('cust-email').value = user.email;
+            document.getElementById('cust-phone').value = user.phone;
+            document.getElementById('cust-address').value = user.address || '';
         }
-        const user = await res.json();
-
-        // Auto-fill form
-        document.getElementById('cust-name').value = user.full_name;
-        document.getElementById('cust-email').value = user.email;
-        document.getElementById('cust-phone').value = user.phone;
-        document.getElementById('cust-address').value = user.address || 'No address on profile';
-
         renderList();
-
     } catch (e) {
-        console.error(e);
-        window.location.href = 'user-login.html';
+        console.log("Guest mode active");
+        renderList();
     }
 
     document.getElementById('adoption-form').addEventListener('submit', async (e) => {
@@ -75,6 +69,15 @@ function removeItem(index) {
 async function submitInquiry() {
     const items = getAdoptionList();
     if (items.length === 0) return;
+
+    // Check auth before submitting
+    const authRes = await fetch('/api/auth/status');
+    const authData = await authRes.json();
+    if (!authData.loggedIn) {
+        alert("Please login or create an account to submit your selection.");
+        window.location.href = 'user-login.html';
+        return;
+    }
 
     const submitBtn = document.getElementById('submit-btn');
     const loader = document.getElementById('form-loader');

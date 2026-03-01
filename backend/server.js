@@ -11,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Setup Middleware
+app.set('trust proxy', 1); // Trust Render's proxy
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
@@ -19,7 +20,12 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'puppy-cam-co-secret-key-123',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    proxy: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+        sameSite: 'lax'
+    }
 }));
 
 // Setup Multer
