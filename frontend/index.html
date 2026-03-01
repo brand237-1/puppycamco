@@ -92,6 +92,30 @@
         </div>
     </header>
 
+    <!-- Featured Puppies Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <h2 class="text-4xl font-serif font-bold text-black mb-4">Featured Puppies</h2>
+                    <p class="text-slate max-w-xl text-lg">Meet some of our newest arrivals. Each puppy is vet-checked
+                        and comes with our a 10-year health commitment.</p>
+                </div>
+                <a href="pets.html"
+                    class="bg-black text-white px-8 py-3 rounded font-bold hover:bg-gray-800 transition uppercase tracking-widest text-sm">View
+                    All Puppies</a>
+            </div>
+
+            <div id="featured-pets-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Populated by JS -->
+                <div class="col-span-full text-center text-slate py-20">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl mb-4"></i>
+                    <p>Fetching our adorable puppies...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Expertise Section -->
     <section class="py-24 bg-gray-50 border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">

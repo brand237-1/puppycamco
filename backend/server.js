@@ -188,7 +188,9 @@ app.post('/api/auth/register', async (req, res) => {
         const stmt = db.prepare('INSERT INTO users (full_name, email, password_hash, phone, address) VALUES (?, ?, ?, ?, ?)');
         const result = stmt.run(fullName, email, hash, phone, address);
         req.session.userId = result.lastInsertRowid;
-        res.json({ success: true });
+        req.session.save(() => {
+            res.json({ success: true });
+        });
     } catch (e) {
         if (e.message.includes('UNIQUE')) return res.status(400).json({ error: 'Email already exists' });
         res.status(500).json({ error: e.message });
