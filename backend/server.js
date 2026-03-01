@@ -27,7 +27,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Initialize SQLite Database
-const db = new Database(path.join(__dirname, 'database.sqlite'), {
+const dbPath = process.env.DISK_PATH || (fs.existsSync('/data') ? '/data/database.sqlite' : path.join(__dirname, 'database.sqlite'));
+const db = new Database(dbPath, {
     verbose: (sql) => console.log(`[SQL] ${sql}`),
     timeout: 10000
 });
