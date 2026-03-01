@@ -26,17 +26,17 @@ In the **Environment** tab of your Render service, add the following variables:
 - `SESSION_SECRET`: A long random string of your choice (e.g., `your-secret-key-123`).
 - `NODE_ENV`: `production`
 
-## 5. Important: SQLite Database
-> [!WARNING]
-> By default, Render's file system is ephemeral. Any data added to the SQLite database (new pets, users, etc.) will be **lost** every time the server restarts or you redeploy.
-
-### Solutions:
-1. **Persistent Disk (Recommended)**:
-   - Add a "Disk" to your service in Render settings.
-   - Mount it at `/data`.
-   - Update `server.js` to point the database to `/data/database.sqlite`.
-2. **External Database**:
-   - Use a managed PostgreSQL database (Render offers a free tier) and update the code to use `pg` instead of `better-sqlite3`.
+## 5. Important: SQLite Database Tracking
+> [!IMPORTANT]
+> Because you are using the **Render Free Tier**, persistent disks are not supported.
+> 
+> **What this means for your site:**
+> - Any data added while the site is live (e.g., new pets added via admin, new users registered) will be **deleted** whenever the server restarts or you redeploy.
+> - The site will always reset back to the "clean" state of your code.
+> 
+> **How to handle this:**
+> - If you want your changes to stay permanent, you must upgrade to Render's **Starter** plan (which supports Disks).
+> - For the free tier, treat the site as a live demo rather than a permanent store.
 
 ## 6. Deployment
 Click **Create Web Service** and wait for the build to finish. Your site will be live at `https://your-app-name.onrender.com`.
