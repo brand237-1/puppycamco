@@ -16,8 +16,8 @@ async function injectNavbar() {
     const nav = document.getElementById('navbar-container');
     if (!nav) return;
 
-    let authLinksDesktop = `<a href="user-login.html" class="hover:text-forest transition duration-200">Login / Sign Up</a>`;
-    let authLinksMobile = `<a href="user-login.html" class="block px-4 py-2 hover:bg-gray-100 transition">Login / Sign Up</a>`;
+    let authLinksDesktop = `<a href="user-login.html" class="hover:text-forest transition duration-200">Login / Sign Up 🐶</a>`;
+    let authLinksMobile = `<a href="user-login.html" class="block px-4 py-2 hover:bg-gray-100 transition">Login / Sign Up 🐶</a>`;
 
     try {
         const res = await fetch('/api/auth/status');
@@ -64,11 +64,11 @@ async function injectNavbar() {
 
                     <!-- Desktop Nav -->
                     <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8 uppercase text-sm font-bold tracking-wide text-slate">
-                        <a href="pets.html" class="hover:text-forest transition duration-200">Available Puppies</a>
-                        <a href="our-promise.html" class="hover:text-forest transition duration-200">Our Promise</a>
+                        <a href="pets.html" class="hover:text-forest transition duration-200">Available Puppies 🐾</a>
+                        <a href="our-promise.html" class="hover:text-forest transition duration-200">Our Promise ✨</a>
                         
                         <a href="admin-login.html" class="text-brown hover:text-yellow-600 transition duration-200 flex items-center gap-1" title="Admin Dashboard">
-                            <i class="fa-solid fa-crown text-xs"></i> VIP Area
+                            <i class="fa-solid fa-crown text-xs"></i> VIP Area 👑
                         </a>
 
                         ${authLinksDesktop}
@@ -146,12 +146,12 @@ function injectFooter() {
                         <p class="text-gray-400 text-sm leading-relaxed max-w-md">Our trusted community connects loving families with responsible breeders to ensure healthy, happy puppies. Guided by our Scientific Advisory Board, we provide a 10-year health commitment.</p>
                     </div>
                     <div>
-                        <span class="font-bold text-lg uppercase tracking-wider mb-6 block text-forest">Explore</span>
+                        <span class="font-bold text-lg uppercase tracking-wider mb-6 block text-forest">Explore 🐾</span>
                         <ul class="text-gray-400 text-sm space-y-3">
-                            <li><a href="pets.html" class="hover:text-white transition">Available Puppies</a></li>
-                            <li><a href="our-promise.html" class="hover:text-white transition">Our Promise</a></li>
-                            <li><a href="breeder-standards.html" class="hover:text-white transition">Breeder Standards</a></li>
-                            <li><a href="health-commitment.html" class="hover:text-white transition">Health Commitment</a></li>
+                            <li><a href="pets.html" class="hover:text-white transition">Available Puppies 🐶</a></li>
+                            <li><a href="our-promise.html" class="hover:text-white transition">Our Promise ✨</a></li>
+                            <li><a href="breeder-standards.html" class="hover:text-white transition">Breeder Standards 🏠</a></li>
+                            <li><a href="health-commitment.html" class="hover:text-white transition">Health Commitment ❤️</a></li>
                         </ul>
                     </div>
                     <div>

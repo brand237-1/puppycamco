@@ -29,9 +29,27 @@ function initDashboard() {
     setupForm('form-add-review', '/api/reviews', 'add-review-modal', loadReviews);
 }
 
+function toggleMobileAdminMenu() {
+    const sidebar = document.getElementById('mobile-sidebar');
+    const content = document.getElementById('mobile-sidebar-content');
+    if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        setTimeout(() => content.classList.remove('-translate-x-full'), 10);
+    } else {
+        content.classList.add('-translate-x-full');
+        setTimeout(() => sidebar.classList.add('hidden'), 300);
+    }
+}
+
 function showTab(tabId) {
     document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
     document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+    // Close mobile menu if open
+    const sidebar = document.getElementById('mobile-sidebar');
+    if (sidebar && !sidebar.classList.contains('hidden')) {
+        toggleMobileAdminMenu();
+    }
 
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
         btn.classList.remove('bg-forest', 'text-white');

@@ -41,37 +41,75 @@
         <aside class="w-64 bg-black text-white flex flex-col hidden md:flex shadow-2xl">
             <div class="h-20 flex items-center justify-center border-b border-gray-700">
                 <img src="favicon.png" alt="Logo" class="w-10 h-10 rounded-full mr-3 bg-white p-0.5 object-cover">
-                <span class="font-bold text-lg text-forest tracking-wide">Admin Portal</span>
+                <span class="font-bold text-lg text-forest tracking-wide">Admin Portal 🐶</span>
             </div>
             <nav class="flex-1 px-4 py-8 space-y-2" id="sidebar-nav">
                 <button onclick="showTab('pets')"
                     class="admin-tab-btn active w-full flex items-center gap-3 px-4 py-3 bg-forest text-white rounded-xl transition font-medium">
-                    <i class="fa-solid fa-cat w-5 text-center"></i> Manage Pets
+                    <i class="fa-solid fa-cat w-5 text-center"></i> Manage Pets 🐾
                 </button>
                 <button onclick="showTab('products')"
                     class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
-                    <i class="fa-solid fa-box w-5 text-center"></i> Manage Products
+                    <i class="fa-solid fa-box w-5 text-center"></i> Manage Products 📦
                 </button>
                 <button onclick="showTab('reviews')"
                     class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
-                    <i class="fa-solid fa-star w-5 text-center"></i> Customer Reviews
+                    <i class="fa-solid fa-star w-5 text-center"></i> Customer Reviews ⭐
                 </button>
                 <button onclick="showTab('adoption')"
                     class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
-                    <i class="fa-solid fa-clipboard-list w-5 text-center"></i> Adoption List
+                    <i class="fa-solid fa-clipboard-list w-5 text-center"></i> Adoption List 📋
                 </button>
                 <button onclick="showTab('users')"
                     class="admin-tab-btn w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition font-medium">
-                    <i class="fa-solid fa-users-gear w-5 text-center"></i> Manage Users
+                    <i class="fa-solid fa-users-gear w-5 text-center"></i> Manage Users 👥
                 </button>
             </nav>
             <div class="p-4 border-t border-gray-700">
                 <button id="logout-btn"
                     class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition font-bold">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout 👋
                 </button>
             </div>
         </aside>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobile-sidebar"
+            class="fixed inset-0 bg-black/60 z-[100] hidden md:hidden backdrop-blur-sm transition-opacity">
+            <aside class="w-64 bg-black h-full shadow-2xl transform -translate-x-full transition-transform duration-300"
+                id="mobile-sidebar-content">
+                <div class="h-20 flex items-center justify-between px-6 border-b border-gray-800">
+                    <div class="flex items-center">
+                        <img src="favicon.png" alt="Logo" class="w-8 h-8 rounded-full mr-2 bg-white object-cover">
+                        <span class="font-bold text-forest">Admin 🐶</span>
+                    </div>
+                    <button onclick="toggleMobileAdminMenu()" class="text-white text-xl"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <nav class="px-4 py-8 space-y-4 font-bold uppercase text-xs tracking-widest text-gray-400">
+                    <button onclick="showTab('pets')"
+                        class="w-full text-left px-4 py-3 hover:bg-gray-900 rounded-lg flex items-center gap-3"><i
+                            class="fa-solid fa-cat w-4"></i> Pets 🐾</button>
+                    <button onclick="showTab('products')"
+                        class="w-full text-left px-4 py-3 hover:bg-gray-900 rounded-lg flex items-center gap-3"><i
+                            class="fa-solid fa-box w-4"></i> Products 📦</button>
+                    <button onclick="showTab('reviews')"
+                        class="w-full text-left px-4 py-3 hover:bg-gray-900 rounded-lg flex items-center gap-3"><i
+                            class="fa-solid fa-star w-4"></i> Reviews ⭐</button>
+                    <button onclick="showTab('adoption')"
+                        class="w-full text-left px-4 py-3 hover:bg-gray-900 rounded-lg flex items-center gap-3"><i
+                            class="fa-solid fa-clipboard-list w-4"></i> Adoption 📋</button>
+                    <button onclick="showTab('users')"
+                        class="w-full text-left px-4 py-3 hover:bg-gray-900 rounded-lg flex items-center gap-3"><i
+                            class="fa-solid fa-users-gear w-4"></i> Users 👥</button>
+                    <div class="pt-6 border-t border-gray-800">
+                        <button onclick="document.getElementById('logout-btn').click()"
+                            class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-500/10 rounded-lg flex items-center gap-3"><i
+                                class="fa-solid fa-right-from-bracket"></i> Logout 👋</button>
+                    </div>
+                </nav>
+            </aside>
+        </div>
 
         <!-- Main Content -->
         <main class="flex-1 flex flex-col overflow-hidden relative">
@@ -80,9 +118,11 @@
             <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 md:hidden">
                 <div class="flex items-center gap-2">
                     <img src="favicon.png" alt="Logo" class="w-8 h-8 rounded-full bg-gray-100 object-cover">
-                    <span class="font-bold text-forest">Admin</span>
+                    <span class="font-bold text-forest text-lg">Admin 🐶</span>
                 </div>
-                <button id="mobile-menu-btn" class="text-gray-500 text-2xl"><i class="fa-solid fa-bars"></i></button>
+                <button id="mobile-menu-btn" onclick="toggleMobileAdminMenu()"
+                    class="text-gray-500 text-2xl hover:text-forest transition-colors"><i
+                        class="fa-solid fa-bars-staggered"></i></button>
             </header>
 
             <!-- Content Area -->
@@ -98,8 +138,8 @@
                 <div id="tab-pets" class="admin-tab block">
                     <div class="flex justify-between items-center mb-8">
                         <div>
-                            <h2 class="text-3xl font-bold text-black">Manage Pets</h2>
-                            <p class="text-gray-500">Add or remove kittens from the adoption list.</p>
+                            <h2 class="text-3xl font-bold text-black flex items-center gap-2">Manage Pets 🐾</h2>
+                            <p class="text-gray-500">Add or remove kittens from the adoption list 🏠.</p>
                         </div>
                         <button onclick="document.getElementById('add-pet-modal').classList.remove('hidden')"
                             class="bg-forest text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:bg-teal-500 transition flex items-center gap-2">
